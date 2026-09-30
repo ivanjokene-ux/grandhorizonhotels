@@ -1,20 +1,33 @@
 # Grand Horizon Hotels
 
-Cloudflare Pages-ready static website.
+Static hotel website prepared for Cloudflare Pages.
 
-## Structure
+## Stack
 
-- `index.html` — application shell and page markup
-- `assets/css/styles.css` — site styles
-- `assets/js/app.js` — browser-side application logic
-- `404.html` — Cloudflare Pages fallback page
-- `_headers` — Pages response-header configuration
-- `_redirects` — Pages redirect rules
+- HTML5
+- CSS3
+- Browser JavaScript
+- No framework
+- No package dependencies
+- No build step
+
+## Files
+
+- `index.html` — website structure
+- `assets/css/styles.css` — responsive styles
+- `assets/js/app.js` — room catalogue and enquiry interactions
+- `404.html` — fallback page
+- `_headers` — response headers
+- `_redirects` — redirect rules
 
 ## Cloudflare Pages
 
-This is a static HTML project. Deploy the repository root as the Pages build output directory. No framework build step is required.
+Production branch: `main`
 
-## Important
+Framework preset: None
 
-The current demo stores account, wallet and transaction state in browser `localStorage`. Real authentication, payments, withdrawals and persistent user data require a secure server-side backend and payment provider.
+Build command: leave blank (or use `exit 0`)
+
+Build output directory: `/`
+
+The repository root is the deployable website.
