@@ -1,114 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#061525">
-<title>Grand Horizon Hotels</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#061525">
+  <meta name="description" content="Grand Horizon Hotels — discover rooms, suites and hotel experiences.">
+  <title>Grand Horizon Hotels</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+  <header class="top">
+    <a class="brand" href="/" aria-label="Grand Horizon Hotels home">
+      <span class="gh-logo" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="58" text-anchor="middle" font-size="28" font-family="Georgia,serif" font-weight="700" fill="currentColor">GH</text><path d="M18 72c17 9 47 9 64 0-16 18-48 18-64 0z" fill="currentColor" opacity=".9"/></svg>
+      </span>
+      <span class="brand-copy"><strong>GRAND HORIZON</strong><small>HOTELS · MEMBER EXPERIENCE</small></span>
+    </a>
+    <button class="menu-button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+    <nav id="siteNav" class="site-nav">
+      <a href="#home">Home</a>
+      <a href="#rooms">Rooms</a>
+      <a href="#about">About</a>
+      <button class="btn primary small" onclick="openBooking()">Book / Enquire</button>
+    </nav>
+  </header>
 
-<div id="authView" class="auth">
-<div class="authbox">
-<div class="brand auth-brand"><div class="gh-logo auth-logo"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="58" text-anchor="middle" font-size="28" font-family="Georgia,serif" font-weight="700" fill="currentColor">GH</text><path d="M18 72c17 9 47 9 64 0-16 18-48 18-64 0z" fill="currentColor" opacity=".9"/></svg></div><div class="brand-copy"><strong>GRAND HORIZON</strong><small>HOTELS · MEMBER EXPERIENCE</small></div></div>
-<div id="loginForm">
-<h1>Welcome back</h1><p>Sign in to manage your rooms, wallet and membership.</p>
-<div class="form">
-<input id="loginPhone" type="tel" placeholder="Phone number">
-<input id="loginPassword" type="password" placeholder="Password">
-<button class="btn primary" onclick="login()">Sign In</button>
-</div>
-<div class="switch">Don't have an account? <button onclick="toggleAuth('register')">Create account</button></div>
-</div>
-<div id="registerForm" class="hidden">
-<h1>Create your account</h1><p>Join Grand Horizon Hotels and manage your membership in one place.</p>
-<div class="form">
-<input id="regName" placeholder="Full name">
-<input id="regPhone" type="tel" placeholder="Phone number">
-<input id="regPassword" type="password" placeholder="Create password">
-<input id="regConfirm" type="password" placeholder="Confirm password">
-<button class="btn primary" onclick="register()">Register</button>
-</div>
-<div class="switch">Already have an account? <button onclick="toggleAuth('login')">Sign in</button></div>
-</div>
-</div>
-</div>
-
-<div id="appView" class="hidden shell">
-<header class="top"><div class="brand"><div class="gh-logo"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="58" text-anchor="middle" font-size="28" font-family="Georgia,serif" font-weight="700" fill="currentColor">GH</text><path d="M18 72c17 9 47 9 64 0-16 18-48 18-64 0z" fill="currentColor" opacity=".9"/></svg></div><div class="brand-copy"><strong>GRAND HORIZON</strong><small>HOTELS · MEMBER EXPERIENCE</small></div></div><div class="userTop"><span id="topName"></span><div class="avatar" id="avatar">G</div></div></header>
-<main class="content">
-
-<section id="discover" class="page active">
-<div class="hero"><div class="eyebrow">WELCOME</div><h1>Luxury stays. Made for you.</h1><p>Discover rooms and suites, compare room plans and view the projected figures attached to each plan.</p></div>
-<div class="grid stats"><div class="card stat"><small>Wallet Balance</small><strong id="dashBalance">UGX 0</strong></div><div class="card stat"><small>Team Members</small><strong id="dashTeam">0</strong></div><div class="card stat"><small>Rewards</small><strong id="dashRewards">0</strong></div></div>
-<div class="card" style="margin-top:14px"><div class="label">Grand Horizon collection</div><h2>Find your perfect room</h2><p class="muted">Browse our featured rooms and suites below.</p><button class="btn primary" onclick="showPage('rooms')">Explore Rooms</button></div>
-<h2 style="margin-top:25px">Featured rooms</h2><div id="featuredRooms" class="grid rooms"></div>
-</section>
-
-<section id="rooms" class="page">
-<div class="hero"><div class="eyebrow">ROOMS & SUITES</div><h1>Stay beautifully.</h1><p>Choose from comfortable rooms, executive spaces and private suites.</p></div>
-<div id="allRooms" class="grid rooms"></div>
-</section>
-
-<section id="wallet" class="page">
-<div class="hero"><div class="eyebrow">MY WALLET</div><h1>Your wallet</h1><p>Manage your membership balance and payment details.</p></div>
-<div class="card"><div class="label">Withdrawable balance</div><div class="amount" id="walletBalance">UGX 0</div><div class="btns"><button class="btn primary" onclick="openDeposit()">Deposit</button><button class="btn" onclick="openWithdraw()">Withdraw</button></div></div>
-<div class="grid two"><div class="card"><div class="label">Deposits</div><h2 id="depositTotal">UGX 0</h2><p class="muted">Available membership balance</p></div><div class="card"><div class="label">Withdrawal</div><div class="row"><span>Minimum withdrawal</span><b>UGX 5,000</b></div><div class="row"><span>Withdrawal fee</span><b>16%</b></div></div></div>
-<div class="card"><h2>Payment Numbers</h2><div class="form"><select id="network"><option>MTN</option><option>Airtel</option></select><input id="payPhone" placeholder="07XXXXXXXX"><label><input type="checkbox" id="defaultPay"> Make default number</label><button class="btn primary" onclick="saveNumber()">Save Number</button></div><div id="savedNumbers"></div></div>
-<div class="card"><h2>Transaction History</h2><div id="history" class="muted">No transactions yet.</div></div>
-</section>
-
-<section id="referrals" class="page">
-<div class="hero"><div class="eyebrow">MEMBER REWARDS</div><h1>Invite & Earn</h1><p>Share your personal invitation and follow your team's progress.</p></div>
-<div class="grid two"><div class="card stat"><small>Your Team</small><strong id="teamCount">0</strong></div><div class="card stat"><small>Team Amount</small><strong id="teamAmount">UGX 0</strong></div></div>
-<div class="card" style="margin-top:14px"><div class="label">Your invitation</div><h2>Share with friends</h2><input id="refLink" readonly style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:#fff"><div class="btns"><button class="btn primary" onclick="copyLink()">Copy Invite Link</button><button class="btn" onclick="shareLink()">Share</button></div></div>
-<div class="grid three" style="margin-top:14px"><div class="card"><div class="label">LEVEL 1</div><h2>27%</h2><p class="muted">Referral rate</p></div><div class="card"><div class="label">LEVEL 2</div><h2>2%</h2><p class="muted">Referral rate</p></div><div class="card"><div class="label">LEVEL 3</div><h2>1%</h2><p class="muted">Referral rate</p></div></div>
-<div class="card" style="margin-top:14px"><div class="label">Next milestone</div><h2>Starter Spark</h2><div class="progress"><div id="teamBar" class="bar"></div></div><div class="row"><span id="teamRemaining">UGX 50,000 remaining</span><b id="teamPercent">0%</b></div></div>
-</section>
-
-<section id="account" class="page">
-<div class="hero"><div class="eyebrow">MY ACCOUNT</div><h1>Account settings</h1></div>
-<div class="card"><div class="profile-head"><div id="accountPhotoWrap" class="profile-photo-placeholder">G</div><div style="flex:1"><div class="label">Member</div><h2 id="accountName" style="margin:5px 0">Member</h2><p class="muted" id="accountPhone" style="margin:0"></p><p style="color:var(--ok);margin:7px 0 0">● Active member</p></div></div><input id="profilePhotoInput" class="photo-input" type="file" accept="image/*" onchange="saveProfilePhoto(event)"><div class="profile-actions"><button class="btn primary" onclick="document.getElementById('profilePhotoInput').click()">📷 Add / Change Photo</button><button class="btn" onclick="removeProfilePhoto()">Remove Photo</button></div><div class="label" style="margin-top:18px">Wallet balance</div><div class="amount" id="accountBalance">UGX 0</div><div class="btns"><button class="btn primary" onclick="openDeposit()">Deposit</button><button class="btn" onclick="showPage('wallet')">View Wallet</button><button class="btn danger" onclick="logout()">Sign Out</button></div></div>
-<div class="card"><div class="row" onclick="showPage('wallet')"><div class="rowleft"><div class="icon">↕</div>Transaction History</div><span>›</span></div><div class="row" onclick="toast('Change password page opened')"><div class="rowleft"><div class="icon">🔒</div>Change Password</div><span>›</span></div><div class="row" onclick="toast('Gift code page opened')"><div class="rowleft"><div class="icon">🎁</div>Redeem Gift Code</div><span>›</span></div><div class="row" onclick="toast('Help & Community opened')"><div class="rowleft"><div class="icon">?</div>Help & Community</div><span>›</span></div><div class="row" onclick="toast('Install the website as an app from your browser menu')"><div class="rowleft"><div class="icon">⬇</div>Install App</div><span>›</span></div><div class="row" onclick="toast('Terms & Conditions opened')"><div class="rowleft"><div class="icon">📄</div>Terms & Conditions</div><span>›</span></div></div>
-</section>
-</main>
-<nav class="bottom"><button class="nav active" data-page="discover" onclick="showPage('discover')"><b>⌂</b>Discover</button><button class="nav" data-page="rooms" onclick="showPage('rooms')"><b>▣</b>My Rooms</button><button class="nav" data-page="wallet" onclick="showPage('wallet')"><b>◈</b>My Wallet</button><button class="nav" data-page="referrals" onclick="showPage('referrals')"><b>♧</b>Invite & Earn</button><button class="nav" data-page="account" onclick="showPage('account')"><b>◎</b>My Account</button></nav>
-</div>
-
-
-<div id="welcomePopup" class="welcome-overlay">
-  <div class="welcome-popup">
-    <div class="welcome-header">
-      <button class="welcome-x" onclick="closeWelcome()" aria-label="Close">×</button>
-      <div class="welcome-header-content">
-        <div class="welcome-small">WELCOME TO</div>
-        <h1 class="welcome-title">Grand Horizon Hotels</h1>
-      </div>
-    </div>
-    <div class="welcome-content">
-      <p class="welcome-subtitle">Your account at a glance</p>
-      <div class="welcome-list">
-        <div class="welcome-item"><div class="welcome-icon">🎁</div><div><div class="welcome-label">Sign-up bonus</div><div class="welcome-value">UGX 2,000</div></div></div>
-        <div class="welcome-item"><div class="welcome-icon">📅</div><div><div class="welcome-label">Daily product earnings</div><div class="welcome-value">Credited daily</div></div></div>
-        <div class="welcome-item"><div class="welcome-icon">💳</div><div><div class="welcome-label">Minimum withdrawal</div><div class="welcome-value">UGX 5,000</div></div></div>
-        <div class="welcome-item"><div class="welcome-icon">◷</div><div><div class="welcome-label">Withdrawal hours</div><div class="welcome-value">24/7</div></div></div>
-        <div class="welcome-item"><div class="welcome-icon">👥</div><div><div class="welcome-label">Team commission · L1 / L2 / L3</div><div class="welcome-value">27% · 2% · 1%</div></div></div>
-      </div>
-      <div class="welcome-footer">
-        <p class="welcome-telegram-text">Join our Telegram group for updates and help.</p>
-        <div class="welcome-buttons">
-          <button class="welcome-btn welcome-join" onclick="joinTelegram()"><svg class="telegram-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.2 18.2 20c-.25 1.18-.91 1.47-1.85.91l-5.1-3.76-2.46 2.37c-.27.27-.5.5-1.02.5l.36-5.18 9.43-8.52c.41-.36-.09-.56-.64-.2L5.26 13.55.2 11.97c-1.1-.34-1.12-1.1.23-1.61L20.2 2.65c.92-.34 1.73.2 1.3.55Z" fill="currentColor"/></svg><span>Join Now</span></button>
-          <button class="welcome-btn welcome-close" onclick="closeWelcome()">Close</button>
+  <main>
+    <section id="home" class="hero hero-large">
+      <div class="hero-inner">
+        <div class="eyebrow">GRAND HORIZON HOTELS</div>
+        <h1>Luxury stays.<br>Made for you.</h1>
+        <p>Discover comfortable rooms, elegant suites and a welcoming hotel experience.</p>
+        <div class="btns">
+          <a class="btn primary" href="#rooms">Explore Rooms</a>
+          <button class="btn" onclick="openBooking()">Make an Enquiry</button>
         </div>
       </div>
+    </section>
+
+    <section id="rooms" class="section">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">ROOMS & SUITES</div>
+          <h2>Stay beautifully.</h2>
+        </div>
+        <p>Choose the room that fits your stay, from comfortable rooms to spacious luxury suites.</p>
+      </div>
+      <div id="roomsGrid" class="grid rooms"></div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="card">
+        <div class="eyebrow">ABOUT GRAND HORIZON</div>
+        <h2>A comfortable place to stay.</h2>
+        <p class="muted">Grand Horizon Hotels brings together thoughtfully presented rooms, welcoming service and a simple way to enquire about your stay.</p>
+        <div class="grid three features">
+          <div><strong>Comfort</strong><span>Rooms designed for a relaxed stay.</span></div>
+          <div><strong>Choice</strong><span>Options for couples, families and guests who want more space.</span></div>
+          <div><strong>Service</strong><span>Easy enquiries and direct communication with the hotel.</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="brand"><span class="gh-logo small-logo" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="58" text-anchor="middle" font-size="28" font-family="Georgia,serif" font-weight="700" fill="currentColor">GH</text></svg></span><span class="brand-copy"><strong>GRAND HORIZON</strong><small>HOTELS</small></span></div>
+    <p>© <span id="year"></span> Grand Horizon Hotels. All rights reserved.</p>
+  </footer>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modalbox">
+      <button class="close" onclick="closeModal()" aria-label="Close">×</button>
+      <h2 id="modalTitle"></h2>
+      <div id="modalBody"></div>
     </div>
   </div>
-</div>
+  <div id="toast" class="toast" role="status"></div>
 
-<div id="modal" class="modal"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><h2 id="modalTitle"></h2><div id="modalBody"></div></div></div><div id="toast" class="toast"></div>
-</div>
-
-    <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
 </body>
 </html>
