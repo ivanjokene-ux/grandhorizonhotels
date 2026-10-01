@@ -10,6 +10,7 @@ const rooms = [
 const money = value => "UGX " + Number(value).toLocaleString();
 const encodeData = value => encodeURIComponent(String(value ?? ""));
 const decodeData = value => decodeURIComponent(String(value ?? ""));
+const todayIso = () => new Date().toISOString().split("T")[0];
 
 function roomCard(room) {
   return `
@@ -17,9 +18,9 @@ function roomCard(room) {
       <img src="${room.img}" alt="${room.name} room" loading="lazy">
       <div class="roombody">
         <div class="label">GRAND HORIZON HOTELS</div>
-        <h3>${room.name}</h3>
-        <p class="muted">${room.bed} · ${room.guests} guests · ${room.size}</p>
-        <div class="chips">${room.tags.map(tag => `<span class="chip">${tag}</span>`).join("")}</div>
+        <h3>${escapeHtml(room.name)}</h3>
+        <p class="muted">${escapeHtml(room.bed)} · ${room.guests} guests · ${escapeHtml(room.size)}</p>
+        <div class="chips">${room.tags.map(tag => `<span class="chip">${escapeHtml(tag)}</span>`).join("")}</div>
         <div class="room-footer">
           <div><small class="muted">Room price</small><div class="price">${money(room.price)}</div></div>
           <button class="btn primary" data-action="view-room" data-room="${encodeData(room.name)}">View room</button>
@@ -36,7 +37,7 @@ function renderRooms() {
 }
 
 function findRoom(name) {
-  return rooms.find(item => item.name === name);
+  return rooms.find(item => item.name === String(name));
 }
 
 function viewRoom(name) {
@@ -46,8 +47,8 @@ function viewRoom(name) {
   modal(room.name, `
     <div class="roommodal">
       <img src="${room.img}" alt="${room.name} room">
-      <div class="chips">${room.tags.map(tag => `<span class="chip">${tag}</span>`).join("")}</div>
-      <p class="muted">A ${room.size} ${room.name.toLowerCase()} with a ${room.bed.toLowerCase()} and space for ${room.guests} guests.</p>
+      <div class="chips">${room.tags.map(tag => `<span class="chip">${escapeHtml(tag)}</span>`).join("")}</div>
+      <p class="muted">A ${escapeHtml(room.size)} ${escapeHtml(room.name).toLowerCase()} with a ${escapeHtml(room.bed).toLowerCase()} and space for ${room.guests} guests.</p>
       <div class="room-price"><span>Room price</span><strong>${money(room.price)}</strong></div>
       <div class="btns">
         <button class="btn primary" data-action="open-booking" data-room="${encodeData(room.name)}">Request this room</button>
@@ -58,7 +59,7 @@ function viewRoom(name) {
 }
 
 function openBooking(roomName = "") {
-  modal("Booking enquiry", `
+  const output = `
     <p class="muted">Send an enquiry for your preferred room. This static site does not process payments or store passwords.</p>
     <form class="form booking-form">
       <input id="bookingName" required placeholder="Full name">
@@ -67,26 +68,29 @@ function openBooking(roomName = "") {
         <option value="">Select a room</option>
         ${rooms.map(room => `<option value="${escapeHtml(room.name)}" ${room.name === roomName ? "selected" : ""}>${room.name} — ${money(room.price)}</option>`).join("")}
       </select>
-      <input id="bookingDate" required type="date">
+      <input id="bookingDate" required type="date" min="${todayIso()}">
       <textarea id="bookingMessage" rows="4" placeholder="Message or special request"></textarea>
       <button class="btn primary" type="submit">Prepare Enquiry</button>
     </form>
-  `);
+  `;
+  modal("Booking enquiry", output);
 }
 
 function submitEnquiry(event) {
-  const form = event && event.target && event.target.closest ? event.target.closest(".booking-form") : null;
-  if (event && typeof event.preventDefault === "function") {
-    event.preventDefault();
-  }
+  event.preventDefault();
+  const nameInput = document.getElementById("bookingName");
+  const phoneInput = document.getElementById("bookingPhone");
+  const roomInput = document.getElementById("bookingRoom");
+  const dateInput = document.getElementById("bookingDate");
+  const messageInput = document.getElementById("bookingMessage");
 
-  if (!form) return;
+  if (!nameInput || !phoneInput || !roomInput || !dateInput || !messageInput) return;
 
-  const name = document.getElementById("bookingName").value.trim();
-  const phone = document.getElementById("bookingPhone").value.trim();
-  const room = document.getElementById("bookingRoom").value;
-  const date = document.getElementById("bookingDate").value;
-  const message = document.getElementById("bookingMessage").value.trim();
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const room = roomInput.value;
+  const date = dateInput.value;
+  const message = messageInput.value.trim();
 
   const text = [
     "Grand Horizon Hotels booking enquiry",
@@ -106,9 +110,33 @@ function submitEnquiry(event) {
 }
 
 function copyEnquiry(text) {
-  navigator.clipboard?.writeText(text)
-    .then(() => toast("Enquiry copied"))
-    .catch(() => toast("Copy is unavailable in this browser"));
+  const value = String(text ?? "");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(value)
+      .then(() => toast("Enquiry copied"))
+      .catch(() => fallbackCopy(value));
+    return;
+  }
+
+  fallbackCopy(value);
+}
+
+function fallbackCopy(value) {
+  const textarea = document.createElement("textarea");
+  textarea.value = value;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand("copy");
+    toast("Enquiry copied");
+  } catch {
+    toast("Copy is unavailable in this browser");
+  }
+  document.body.removeChild(textarea);
 }
 
 function escapeHtml(value) {
