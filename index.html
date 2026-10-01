@@ -12,16 +12,16 @@
   <header class="top">
     <a class="brand" href="/" aria-label="Grand Horizon Hotels home">
       <span class="gh-logo" aria-hidden="true">
-        <svg viewBox="0 0 100 100"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="58" text-anchor="middle" font-size="28" font-family="Georgia,serif" font-weight="700" fill="currentColor">GH</text><path d="M18 72c17 9 47 9 64 0-16 18-48 18-64 0z" fill="currentColor" opacity=".9"/></svg>
+        <svg viewBox="0 0 100 100"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="60" text-anchor="middle" font-size="24" fill="currentColor" font-family="Arial, sans-serif">GH</text></svg>
       </span>
       <span class="brand-copy"><strong>GRAND HORIZON</strong><small>HOTELS · MEMBER EXPERIENCE</small></span>
     </a>
-    <button class="menu-button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+    <button class="menu-button" data-action="toggle-menu" aria-label="Open menu">☰</button>
     <nav id="siteNav" class="site-nav">
       <a href="#home">Home</a>
       <a href="#rooms">Rooms</a>
       <a href="#about">About</a>
-      <button class="btn primary small" onclick="openBooking()">Book / Enquire</button>
+      <button class="btn primary small" data-action="open-booking">Book / Enquire</button>
     </nav>
   </header>
 
@@ -33,7 +33,7 @@
         <p>Discover comfortable rooms, elegant suites and a welcoming hotel experience.</p>
         <div class="btns">
           <a class="btn primary" href="#rooms">Explore Rooms</a>
-          <button class="btn" onclick="openBooking()">Make an Enquiry</button>
+          <button class="btn" data-action="open-booking">Make an Enquiry</button>
         </div>
       </div>
     </section>
@@ -64,13 +64,13 @@
   </main>
 
   <footer class="footer">
-    <div class="brand"><span class="gh-logo small-logo" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="58" text-anchor="middle" font-size="28" font-family="Georgia,serif" font-weight="700" fill="currentColor">GH</text></svg></span><span class="brand-copy"><strong>GRAND HORIZON</strong><small>HOTELS</small></span></div>
+    <div class="brand"><span class="gh-logo small-logo" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 10l6 10 11-2-2 11 10 6-10 6 2 11-11-2-6 10-6-10-11 2 2-11-10-6 10-6-2-11 11 2z" fill="currentColor"/><circle cx="50" cy="48" r="25" fill="#061525"/><text x="50" y="60" text-anchor="middle" font-size="24" fill="currentColor" font-family="Arial, sans-serif">GH</text></svg></span>
     <p>© <span id="year"></span> Grand Horizon Hotels. All rights reserved.</p>
   </footer>
 
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modalbox">
-      <button class="close" onclick="closeModal()" aria-label="Close">×</button>
+      <button class="close" data-action="close-modal" aria-label="Close">×</button>
       <h2 id="modalTitle"></h2>
       <div id="modalBody"></div>
     </div>
